@@ -3,14 +3,11 @@ import {
   Column,
   CreateDateColumn,
   Entity as EntityORM,
-  JoinColumn,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { City } from "./city.entity";
 
-enum Sex {
+export enum Sex {
   MALE = "MALE",
   FEMALE = "FEMALE",
 }
@@ -52,10 +49,9 @@ export class User {
   })
   sex: Sex;
 
-  @Column({ type: "uuid", name: "city_id" })
-  cityId: string;
+  @Column({ type: "varchar", length: 100 })
+  city: string;
 
-  @OneToOne(() => City)
-  @JoinColumn({ name: "city_id" })
-  city: City;
+  @Column({ type: "varchar", length: 100 })
+  email: string;
 }
