@@ -1,5 +1,5 @@
 import { Sex } from "../../../entity/user.entity";
-import { IsEnum, IsString } from "class-validator";
+import { IsDate, IsEnum, IsOptional, IsString } from "class-validator";
 
 export class RegisterDto {
   @IsString()
@@ -11,10 +11,7 @@ export class RegisterDto {
   @IsString()
   password: string;
 
-  @IsString()
-  salt: string;
-
-  @IsString()
+  @IsDate()
   birthday: Date;
 
   @IsEnum(Object.values(Sex))
@@ -25,4 +22,8 @@ export class RegisterDto {
 
   @IsString()
   email: string;
+
+  @IsString()
+  @IsOptional()
+  about: string
 }

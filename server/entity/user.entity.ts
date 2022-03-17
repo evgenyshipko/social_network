@@ -8,8 +8,8 @@ import {
 } from "typeorm";
 
 export enum Sex {
-  MALE = "MALE",
-  FEMALE = "FEMALE",
+  MALE = "male",
+  FEMALE = "female",
 }
 
 @EntityORM("user")
@@ -35,9 +35,6 @@ export class User {
   @Column({ type: "varchar", length: 512 })
   password: string;
 
-  @Column({ type: "varchar", length: 100 })
-  salt: string;
-
   @Column({ type: "date" })
   birthday: Date;
 
@@ -52,6 +49,9 @@ export class User {
   @Column({ type: "varchar", length: 100 })
   city: string;
 
-  @Column({ type: "varchar", length: 100 })
+  @Column({ type: "varchar", length: 100, unique: true })
   email: string;
+
+  @Column({ type: "text" })
+  about: string;
 }

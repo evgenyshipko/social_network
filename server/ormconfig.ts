@@ -10,6 +10,7 @@ export const mysqlConnectionOptions: ConnectionOptions = {
   entities: [`${__dirname}/**/*.entity{.ts,.js}`],
   synchronize: false,
   migrationsTransactionMode: "each",
+  migrations: [`${__dirname}/migrations/**/*{.ts,.js}`],
   cli: {
     migrationsDir: `${__dirname}/migrations`,
   },
