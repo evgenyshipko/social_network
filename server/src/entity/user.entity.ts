@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { Exclude } from "class-transformer";
 
 export enum Sex {
   MALE = "male",
@@ -33,6 +34,7 @@ export class User {
   lastName: string;
 
   @Column({ type: "varchar", length: 512 })
+  @Exclude()
   password: string;
 
   @Column({ type: "date" })

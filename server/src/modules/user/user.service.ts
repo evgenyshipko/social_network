@@ -1,15 +1,11 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  NotFoundException,
-} from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "../../entity/user.entity";
 import { Repository } from "typeorm";
-import { RegisterDto } from "./dto/register.dto";
+import { RegisterDto } from "../auth/dto/register.dto";
 import { formatDate } from "../../utils/dates";
-import {v4 as generateUid } from 'uuid'
+import { v4 as generateUid } from "uuid";
+import camelcaseKeys from "camelcase-keys";
 
 @Injectable()
 export class UserService {
@@ -18,15 +14,23 @@ export class UserService {
     private usersRepository: Repository<User>
   ) {}
 
-  async getByEmail(email: string) {
+  async getByEmail(email: string): Promise<User> {
     const users = await this.usersRepository.query(`SELECT * FROM user WHERE email = '${email}'`);
     if (users.length > 0) {
-      return users[0];
+      return camelcaseKeys(users[0]);
     }
     throw new NotFoundException("User with this email does not exist");
   }
 
-  async create(userData: RegisterDto) {
+  async getById(id: string): Promise<User> {
+    const users = await this.usersRepository.query(`SELECT * FROM user WHERE id = '${id}'`);
+    if (users.length > 0) {
+      return camelcaseKeys(users[0]);
+    }
+    throw new NotFoundException('User with this id does not exist');
+  }
+
+  async create(userData: RegisterDto): Promise<User> {
 
     const {firstName, lastName, email, password, sex, city} = userData
 
@@ -41,14 +45,6 @@ export class UserService {
     await this.usersRepository.query(query);
 
     return this.getById(id)
-  }
-
-  async getById(id: string) {
-    const user = await this.usersRepository.query(`SELECT * FROM user WHERE id = '${id}'`);
-    if (user) {
-      return user;
-    }
-    throw new HttpException('User with this id does not exist', HttpStatus.NOT_FOUND);
   }
 
 }
