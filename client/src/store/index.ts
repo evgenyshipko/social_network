@@ -1,12 +1,16 @@
 import { AuthStore } from "@store/auth";
 import { createContext, useContext } from "react";
 import { createBrowserHistory } from "history";
+import { NoticeStore } from "@store/notice";
 
 const createStore = () => {
   const authStore = new AuthStore();
 
+  const noticeStore = new NoticeStore();
+
   return {
     AuthStore: authStore,
+    NoticeStore: noticeStore,
   };
 };
 

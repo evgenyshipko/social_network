@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from "@nestjs/common";
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from "@nestjs/common";
 import { UserService } from "../user/user.service";
 import * as bcrypt from "bcrypt";
 import { RegisterDto } from "./dto/register.dto";
@@ -6,7 +10,7 @@ import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
 
 enum MySqlErrorCode {
-  UniqueViolation = 'ER_DUP_ENTRY',
+  UniqueViolation = "ER_DUP_ENTRY",
 }
 
 export interface TokenPayload {
@@ -15,20 +19,24 @@ export interface TokenPayload {
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userService: UserService,     private readonly jwtService: JwtService, private readonly configService: ConfigService,
+  constructor(
+    private readonly userService: UserService,
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService
   ) {}
 
   public async register(registrationData: RegisterDto) {
     const hashedPassword = await bcrypt.hash(registrationData.password, 10);
     try {
-      const createdUser = await this.userService.create({
+      const user = await this.userService.create({
         ...registrationData,
         password: hashedPassword,
       });
-      createdUser.password = undefined;
-      return createdUser;
+
+      user.password = undefined;
+
+      return user;
     } catch (error) {
-      console.log(error)
       if (error?.code === MySqlErrorCode.UniqueViolation) {
         throw new BadRequestException("User with that email already exists");
       }
@@ -37,16 +45,13 @@ export class AuthService {
   }
 
   public async getAuthenticatedUser(email: string, plainTextPassword: string) {
-    try {
-      const user = await this.userService.getByEmail(email);
+    const user = await this.userService.getByEmail(email);
 
-      await this.verifyPassword(plainTextPassword, user.password);
+    await this.verifyPassword(plainTextPassword, user.password);
 
-      user.password = undefined;
-      return user;
-    } catch (error) {
-      throw new BadRequestException("Wrong credentials provided");
-    }
+    user.password = undefined;
+
+    return user;
   }
 
   private async verifyPassword(
@@ -65,7 +70,9 @@ export class AuthService {
   public getCookieWithJwtToken(userId: string) {
     const payload: TokenPayload = { userId };
     const token = this.jwtService.sign(payload);
-    return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get('JWT_EXPIRATION_TIME')}`;
+    return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(
+      "JWT_EXPIRATION_TIME"
+    )}`;
   }
 
   public getCookieForLogOut() {

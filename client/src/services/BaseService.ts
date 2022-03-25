@@ -14,34 +14,22 @@ export const axiosInstance: AxiosInstance = axios.create({
 axiosInstance.interceptors.response.use(
   (response) => Promise.resolve(response),
   (error) => {
-    if (axios.isCancel(error)) {
-      return Promise.reject(error);
+    if (error.response.status === HttpCode.Unauthorized) {
+      if (
+        stores?.AuthStore?.user &&
+        Object.keys(stores.AuthStore.user).length
+      ) {
+        stores.AuthStore.logOut();
+      }
+
+      return;
     }
-    if (
-      error.response.status === HttpCode.Unauthorized &&
-      stores?.AuthStore?.user &&
-      Object.keys(stores.AuthStore.user).length
-    ) {
-      stores.AuthStore.logOut();
-    }
+
+    stores.NoticeStore.initError(error.response.data);
 
     return Promise.reject(error);
   }
 );
-
-const errorHandler = <T = unknown>(
-  axiosPromise: AxiosPromise<T>,
-  context: string
-  // eslint-disable-next-line consistent-return
-): AxiosPromise<T> =>
-  axiosPromise.catch((error) => {
-    // if (!error.response?.data?.disableGlobalNotice) {
-    //   stores.NoticeStore.initError(error.response.data.message, {
-    //     context,
-    //   });
-    // }
-    throw error;
-  });
 
 export abstract class ServiceBase {
   protected static BASE_URL: string;
@@ -63,11 +51,7 @@ export abstract class ServiceBase {
       newUrl = `${newUrl}?${queryString.stringify(data)}`;
     }
 
-    const promise = this.api.get(this.buildUrl(newUrl), options);
-
-    const context = `METHOD: get, URL: ${url}`;
-
-    return errorHandler(promise, context);
+    return this.api.get(this.buildUrl(newUrl), options);
   }
 
   protected static post<T>(
@@ -75,11 +59,7 @@ export abstract class ServiceBase {
     data?: Nullable<unknown>,
     options?: AxiosRequestConfig
   ): AxiosPromise<T> {
-    const promise = this.api.post(this.buildUrl(url), data, options);
-
-    const context = `METHOD: post, URL: ${url}`;
-
-    return errorHandler(promise, context);
+    return this.api.post(this.buildUrl(url), data, options);
   }
 
   protected static put<T>(
@@ -87,11 +67,7 @@ export abstract class ServiceBase {
     data?: Nullable<unknown>,
     options?: AxiosRequestConfig
   ): AxiosPromise<T> {
-    const promise = this.api.put(this.buildUrl(url), data, options);
-
-    const context = `METHOD: put, URL: ${url}`;
-
-    return errorHandler(promise, context);
+    return this.api.put(this.buildUrl(url), data, options);
   }
 
   protected static patch<T>(
@@ -99,11 +75,7 @@ export abstract class ServiceBase {
     data?: Nullable<unknown>,
     options?: AxiosRequestConfig
   ): AxiosPromise<T> {
-    const promise = this.api.patch(this.buildUrl(url), data, options);
-
-    const context = `METHOD: patch, URL: ${url}`;
-
-    return errorHandler(promise, context);
+    return this.api.patch(this.buildUrl(url), data, options);
   }
 
   protected static delete<T>(
@@ -111,10 +83,6 @@ export abstract class ServiceBase {
     data?: Nullable<ParsedUrlQueryInput>,
     options?: AxiosRequestConfig
   ): AxiosPromise<T> {
-    const promise = this.api.delete(this.buildUrl(url), { ...options, data });
-
-    const context = `METHOD: delete, URL: ${url}`;
-
-    return errorHandler(promise, context);
+    return this.api.delete(this.buildUrl(url), { ...options, data });
   }
 }

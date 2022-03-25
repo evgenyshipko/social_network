@@ -1,13 +1,12 @@
 import {
   Body,
-  ClassSerializerInterceptor,
   Controller,
   Get,
   Post,
   Req,
   Res,
   UseGuards,
-  UseInterceptors
+  UseInterceptors,
 } from "@nestjs/common";
 import { RequestWithUser } from "./requestWithUser.interface";
 import { RegisterDto } from "./dto/register.dto";
@@ -16,7 +15,6 @@ import { LocalAuthenticationGuard } from "./guards/local.guard";
 import { Response } from "express";
 import JwtAuthenticationGuard from "./guards/jwt-auth.guard";
 
-@UseInterceptors(ClassSerializerInterceptor)
 @Controller("api/auth")
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -28,21 +26,20 @@ export class AuthController {
 
   @UseGuards(LocalAuthenticationGuard)
   @Post("login")
-  async logIn(@Req() request: RequestWithUser, @Res() response: Response,) {
-
+  async logIn(@Req() request: RequestWithUser, @Res() response: Response) {
     const user = request.user;
 
     const cookie = this.authService.getCookieWithJwtToken(user.id);
 
-    response.setHeader('Set-Cookie', cookie);
+    response.setHeader("Set-Cookie", cookie);
 
     return response.send(user);
   }
 
   @UseGuards(JwtAuthenticationGuard)
-  @Post('logout')
+  @Post("logout")
   async logOut(@Req() request: RequestWithUser, @Res() response: Response) {
-    response.setHeader('Set-Cookie', this.authService.getCookieForLogOut());
+    response.setHeader("Set-Cookie", this.authService.getCookieForLogOut());
     return response.sendStatus(200);
   }
 
@@ -51,5 +48,4 @@ export class AuthController {
   checkAuth(@Req() request: RequestWithUser) {
     return request.user;
   }
-
 }

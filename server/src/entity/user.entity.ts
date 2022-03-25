@@ -34,7 +34,6 @@ export class User {
   lastName: string;
 
   @Column({ type: "varchar", length: 512 })
-  @Exclude()
   password: string;
 
   @Column({ type: "date" })

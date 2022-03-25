@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 import { useStores } from "@store";
 import { AuthorizedRoute } from "@src/components/AuthorizedRoute";
-import { HomePage } from "@pages/HomePage";
-import { AuthPage } from "@pages/AuthPage";
+import { HomePage } from "@pages/home/HomePage";
+import { LoginPage } from "@pages/LoginPage";
 import { RegistrationPage } from "@pages/RegisterPage";
 
 export enum Path {
@@ -23,7 +23,7 @@ export const Routes = (): JSX.Element => {
 
   return (
     <Switch>
-      <Route path={Path.LOGIN} component={AuthPage} exact />
+      <Route path={Path.LOGIN} component={LoginPage} exact />
 
       <Route path={Path.REGISTRATION} component={RegistrationPage} exact />
 

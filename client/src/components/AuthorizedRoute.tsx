@@ -27,7 +27,7 @@ export const AuthorizedRoute: FC<ProtectedRouteProps> = ({
 
   const isAuth = user && !isFetching;
 
-  const ProtectedRoute = useCallback(withProtect(Route, isAuth, redirectTo), [
+  const ProtectedRoute = useCallback(withProtect(Route, !isAuth, redirectTo), [
     isAuth,
   ]);
 
