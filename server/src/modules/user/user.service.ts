@@ -14,6 +14,17 @@ export class UserService {
     private usersRepository: Repository<User>
   ) {}
 
+  async getUserList(currentUserId: string): Promise<User[]> {
+    const users = (await this.usersRepository.query(
+      `SELECT * FROM user WHERE id != '${currentUserId}'`
+    )) as Array<User>;
+
+    return users.map((user) => {
+      user.password = undefined;
+      return camelizeKeys(user);
+    });
+  }
+
   async getByEmail(email: string): Promise<User> {
     const users = await this.usersRepository.query(
       `SELECT * FROM user WHERE email = '${email}'`

@@ -28,7 +28,7 @@ export const LoginPage = () => {
       })
     );
 
-    history.push(Path.MAIN);
+    history.push(Path.PROFILE);
   };
 
   const handleClickRegistration = () => history.push(Path.REGISTRATION);

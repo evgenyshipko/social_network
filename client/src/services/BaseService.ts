@@ -22,7 +22,7 @@ axiosInstance.interceptors.response.use(
         stores.AuthStore.logOut();
       }
 
-      return;
+      return Promise.reject(error);
     }
 
     stores.NoticeStore.initError(error.response.data);

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { Router } from "react-router-dom";
 import { history, stores, StoresContext } from "@store";
 import { Routes } from "./routes";
 import { Notice } from "@src/components/Notice/Notice";

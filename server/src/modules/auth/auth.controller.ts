@@ -6,7 +6,6 @@ import {
   Req,
   Res,
   UseGuards,
-  UseInterceptors,
 } from "@nestjs/common";
 import { RequestWithUser } from "./requestWithUser.interface";
 import { RegisterDto } from "./dto/register.dto";

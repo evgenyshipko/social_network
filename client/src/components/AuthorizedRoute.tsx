@@ -2,6 +2,8 @@ import React, { ComponentType, FC, useCallback } from "react";
 import { useStores } from "@store";
 import { Route, RouteProps, Redirect } from "react-router-dom";
 import { Path } from "@src/routes";
+import { CircularProgress } from "@mui/material";
+import { observer } from "mobx-react-lite";
 
 interface ProtectedRouteProps extends RouteProps {
   title?: string;
@@ -17,19 +19,22 @@ const withProtect =
   (props) =>
     condition ? <Component {...props} /> : <Redirect to={redirectTo} />;
 
-export const AuthorizedRoute: FC<ProtectedRouteProps> = ({
-  redirectTo = Path.LOGIN,
-  ...restProps
-}) => {
-  const {
-    AuthStore: { user, isFetching },
-  } = useStores();
+export const AuthorizedRoute: FC<ProtectedRouteProps> = observer(
+  ({ redirectTo = Path.LOGIN, ...restProps }) => {
+    const {
+      AuthStore: { user, isFetching },
+    } = useStores();
 
-  const isAuth = user && !isFetching;
+    const isAuth = user && !isFetching;
 
-  const ProtectedRoute = useCallback(withProtect(Route, !isAuth, redirectTo), [
-    isAuth,
-  ]);
+    const ProtectedRoute = useCallback(withProtect(Route, isAuth, redirectTo), [
+      isAuth,
+    ]);
 
-  return <ProtectedRoute {...restProps} />;
-};
+    return isFetching ? (
+      <CircularProgress />
+    ) : (
+      <ProtectedRoute {...restProps} />
+    );
+  }
+);

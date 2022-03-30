@@ -6,16 +6,18 @@ import { ConfigModule } from "@nestjs/config";
 import { AuthModule } from "./modules/auth/auth.module";
 import { UserModule } from "./modules/user/user.module";
 import { validate } from "./env.validation";
+import { FriendsModule } from "./modules/friends/friends.module";
 
 @Module({
   imports: [
-    AuthModule,
-    UserModule,
     TypeOrmModule.forRoot(mysqlConnectionOptions),
     ConfigModule.forRoot({
       isGlobal: true,
       validate,
     }),
+    AuthModule,
+    UserModule,
+    FriendsModule,
   ],
   controllers: [AppController],
   providers: [],

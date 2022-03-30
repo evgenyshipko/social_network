@@ -2,12 +2,6 @@ import { v4 as createUuid } from "uuid";
 import { action, makeObservable, observable } from "mobx";
 import { AlertColor } from "@mui/material";
 
-export enum NoticeType {
-  DEFAULT = "default",
-  SUCCESS = "success",
-  ERROR = "error",
-}
-
 interface NoticeParams {
   context?: string;
   uuid?: string;
@@ -27,7 +21,6 @@ export class NoticeStore {
   constructor() {
     makeObservable(this, {
       items: observable,
-      initDefault: action,
       initError: action,
       initSuccess: action,
       drop: action,
@@ -35,15 +28,11 @@ export class NoticeStore {
   }
 
   initError = (text: string, params?: NoticeParams) => {
-    this.init({ ...params, type: NoticeType.ERROR, text });
-  };
-
-  initDefault = (text: string, params?: NoticeParams) => {
-    this.init({ ...params, type: NoticeType.DEFAULT, text });
+    this.init({ ...params, type: "error", text });
   };
 
   initSuccess = (text: string, params?: NoticeParams) => {
-    this.init({ ...params, type: NoticeType.SUCCESS, text });
+    this.init({ ...params, type: "success", text });
   };
 
   private init({

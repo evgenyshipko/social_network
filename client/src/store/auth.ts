@@ -3,8 +3,6 @@ import { AuthService } from "@src/services/AuthService";
 import { LoginData, RegistrationData, User } from "@src/types";
 
 export class AuthStore {
-  error: string = null;
-
   isFetching = true;
 
   user: User = null;
@@ -22,7 +20,6 @@ export class AuthStore {
 
   constructor() {
     makeObservable(this, {
-      error: observable,
       isFetching: observable,
       user: observable,
       fetchAuth: flow.bound,
@@ -45,8 +42,6 @@ export class AuthStore {
     try {
       this.isFetching = true;
       this.user = yield AuthService.checkAuth();
-    } catch (error) {
-      this.error = error.response?.data;
     } finally {
       this.isFetching = false;
     }
@@ -57,8 +52,6 @@ export class AuthStore {
       this.isFetching = true;
       this.user = null;
       yield AuthService.logout();
-    } catch (error) {
-      this.error = error.response?.data;
     } finally {
       this.isFetching = false;
     }
@@ -68,8 +61,6 @@ export class AuthStore {
     try {
       this.isFetching = true;
       this.user = yield AuthService.login(params);
-    } catch (error) {
-      this.error = error.response?.data;
     } finally {
       this.isFetching = false;
     }
@@ -79,8 +70,6 @@ export class AuthStore {
     try {
       this.isFetching = true;
       this.user = yield AuthService.register(this.registrationData);
-    } catch (error) {
-      this.error = error.response?.data;
     } finally {
       this.isFetching = false;
     }
