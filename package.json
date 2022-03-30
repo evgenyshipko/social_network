@@ -7,8 +7,9 @@
   "license": "UNLICENSED",
   "scripts": {
     "dev": "concurrently \"npm:server:dev\" \"npm:client:dev\"",
+    "build": "npm run server:build && npm run client:build",
     "client:dev": "vite client/",
-    "client:build": "tsc && vite build client/",
+    "client:build": "tsc -p client/tsconfig.json && vite build client/ --outDir ../dist/client",
     "server:build": "nest build --path server/tsconfig.json --config server/nest-cli.json",
     "server:build:watch": "nest build --path server/tsconfig.json --config server/nest-cli.json --watch",
     "server:start": "nest start --path server/tsconfig.json --config server/nest-cli.json",
