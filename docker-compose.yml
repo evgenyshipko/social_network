@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  mysql_db:
+      image: mysql:5.7
+      restart: always
+      platform: linux/x86_64
+      container_name: social_network_mysql
+      volumes:
+        - ${DB_VOLUME_PATH}:/var/lib/mysql
+      ports:
+        - "${DB_PORT}:3306"
+      environment:
+        MYSQL_HOST: ${DB_HOST}
+        MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+        MYSQL_DATABASE: ${DB_NAME}
+        MYSQL_USER: ${DB_USERNAME}
+        MYSQL_PASSWORD: ${DB_PASSWORD}
+        DB_VOLUME_PATH: ${DB_VOLUME_PATH}
+  app:
+    container_name: social_network_fullstack
+    build:
+      context: .
+    restart: always
+    ports:
+      - "${PORT}:3001"
+      - "${SERVER_PORT}:3000"
+    environment:
+      - JWT_SECRET
+      - JWT_EXPIRATION_TIME
+      - VITE_APP_SERVER_HOST
+      - SERVER_PORT
+      - DB_HOST=host.docker.internal
+      - DB_PORT
+      - DB_USERNAME
+      - DB_PASSWORD
+      - DB_NAME
+      - PORT
+    depends_on:
+      - mysql_db

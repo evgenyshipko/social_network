@@ -40,7 +40,6 @@ export class AuthService {
       if (error?.code === MySqlErrorCode.UniqueViolation) {
         throw new BadRequestException("User with that email already exists");
       }
-      throw new InternalServerErrorException("Something went wrong");
     }
   }
 

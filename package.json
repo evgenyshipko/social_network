@@ -7,7 +7,9 @@
   "license": "UNLICENSED",
   "scripts": {
     "dev": "concurrently \"npm:server:dev\" \"npm:client:dev\"",
+    "start": "concurrently \"npm:server:start\" \"npm:client:start\"",
     "build": "npm run server:build && npm run client:build",
+    "client:start": "node static_server.js",
     "client:dev": "vite client/",
     "client:build": "tsc -p client/tsconfig.json && vite build client/ --outDir ../dist/client",
     "server:build": "nest build --path server/tsconfig.json --config server/nest-cli.json",
@@ -45,6 +47,7 @@
     "concurrently": "^7.0.0",
     "cookie-parser": "^1.4.6",
     "date-fns": "^2.28.0",
+    "express": "^4.17.3",
     "mobx": "^6.5.0",
     "mobx-react-lite": "^3.3.0",
     "mysql2": "^2.3.3",
