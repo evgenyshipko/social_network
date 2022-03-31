@@ -7,7 +7,18 @@ Monorepo-project for training high-load cases and tricks.
 2. Backend: Node.js (Nest), Docker, TypeORM (for migration-creation and raw sql-queries only)
 3. Database: MySQL 5.7
 
-### Get started:
+### Get started: (Docker)
+1. Create .env file in project's root folder, fill that like .env.example
+2. Build docker containers.
+```bash
+docker-compose build
+```
+3. Start docker containers
+```bash
+docker-compose up
+```
+
+### Get started: (ordinary way)
 1. Create .env file in project's root folder, fill that like .env.example
 2. Start datadase
 ```bash
