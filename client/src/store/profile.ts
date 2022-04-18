@@ -4,20 +4,24 @@ import { FriendData, FriendsService } from "@services/FriendsService";
 import { UserService } from "@services/UserService";
 
 export class ProfileStore {
-  isFetching = true;
+  isFetching = false;
 
   friends: FriendData[] = [];
 
   users: User[] = [];
 
+  isUsersFetching = false;
+
   constructor() {
     makeObservable(this, {
+      users: observable,
       isFetching: observable,
       friends: observable,
       fetchFriends: flow.bound,
       fetchUsers: flow.bound,
       deleteFriendship: flow.bound,
       createFriendship: flow.bound,
+      isUsersFetching: observable,
     });
   }
 
@@ -30,12 +34,15 @@ export class ProfileStore {
     }
   }
 
-  *fetchUsers(): Generator<Promise<User[]>, void, User[]> {
+  *fetchUsers(
+    firstName: string,
+    lastName: string
+  ): Generator<Promise<User[]>, void, User[]> {
     try {
-      this.isFetching = true;
-      this.users = yield UserService.getUsers();
+      this.isUsersFetching = true;
+      this.users = yield UserService.getUsers(firstName, lastName);
     } finally {
-      this.isFetching = false;
+      this.isUsersFetching = false;
     }
   }
 

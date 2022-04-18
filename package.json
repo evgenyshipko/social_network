@@ -17,11 +17,12 @@
     "server:start": "nest start --path server/tsconfig.json --config server/nest-cli.json",
     "server:dev": "nest start --watch --path server/tsconfig.json --config server/nest-cli.json",
     "server:start:prod": "node dist/main",
-    "database:start:mysql": "docker run -d -p 3306:3306 --name social-network-mysql --platform linux/x86_64 -e MYSQL_ROOT_PASSWORD=eee -e MYSQL_DATABASE=social -e MYSQL_USER=social -e MYSQL_PASSWORD=social mysql:5.7",
+    "database:start": "docker-compose -f docker-compose.db.yml up",
     "database:migration:generate": "npm run typeorm -- migration:generate --connection  --name",
     "database:migration:run": "npm run typeorm -- migration:run -t=false",
     "database:schema:drop": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js -f server/src/ormconfig.ts schema:drop",
-    "typeorm": "ts-node --project tsconfig.json ./node_modules/.bin/typeorm --config server/src/ormconfig.ts"
+    "typeorm": "ts-node --project server/tsconfig.json ./node_modules/.bin/typeorm --config server/src/ormconfig.ts",
+    "fill_users": "ts-node --project server/tsconfig.json -r tsconfig-paths/register server/src/scripts/fillUsers.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.8.2",
@@ -48,6 +49,7 @@
     "cookie-parser": "^1.4.6",
     "date-fns": "^2.28.0",
     "express": "^4.17.3",
+    "lodash": "^4.17.21",
     "mobx": "^6.5.0",
     "mobx-react-lite": "^3.3.0",
     "mysql2": "^2.3.3",
@@ -58,7 +60,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router": "^5.2.1",
-    "react-router-dom": "^5.2.0",
+    "react-router-dom": "^6.3.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",

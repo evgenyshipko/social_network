@@ -5,17 +5,17 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useHistory } from "react-router-dom";
-import { Path } from "@src/routes";
+import { Path } from "@src/routesList";
 import { useStores } from "@store";
 import { flowResult } from "mobx";
+import { useNavigate } from "react-router-dom";
 
 export const LoginPage = () => {
   const {
     AuthStore: { logIn },
   } = useStores();
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -28,10 +28,10 @@ export const LoginPage = () => {
       })
     );
 
-    history.push(Path.PROFILE);
+    navigate(Path.MAIN);
   };
 
-  const handleClickRegistration = () => history.push(Path.REGISTRATION);
+  const handleClickRegistration = () => navigate(Path.REGISTRATION);
 
   return (
     <Container component="main" maxWidth="xs">

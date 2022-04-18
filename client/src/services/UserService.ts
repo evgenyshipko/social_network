@@ -4,8 +4,15 @@ import { User } from "@src/types";
 export class UserService extends ServiceBase {
   protected static BASE_URL = "/api/user";
 
-  static async getUsers(): Promise<User[]> {
-    const { data } = await this.get<User[]>("");
+  static async getUsers(
+    firstName?: string,
+    lastName?: string
+  ): Promise<User[]> {
+    const { data } = await this.get<User[]>(
+      "",
+      {},
+      { params: { firstName, lastName } }
+    );
     return data;
   }
 

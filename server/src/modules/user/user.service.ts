@@ -6,6 +6,7 @@ import { RegisterDto } from "../auth/dto/register.dto";
 import { formatDate } from "../../utils/dates";
 import { v4 as generateUid } from "uuid";
 import { camelizeKeys } from "../../utils/camel";
+import { UserQueryParams } from "./user.controller";
 
 @Injectable()
 export class UserService {
@@ -14,10 +15,21 @@ export class UserService {
     private usersRepository: Repository<User>
   ) {}
 
-  async getUserList(currentUserId: string): Promise<User[]> {
-    const users = (await this.usersRepository.query(
-      `SELECT * FROM user WHERE id != '${currentUserId}'`
-    )) as Array<User>;
+  async getUserList(
+    currentUserId: string,
+    params?: UserQueryParams
+  ): Promise<User[]> {
+    const { firstName, lastName, offset = 0, limit = 50 } = params;
+
+    let sqlQuery = `SELECT * FROM user WHERE id != '${currentUserId}'`;
+
+    if (firstName && lastName) {
+      sqlQuery += ` AND first_name LIKE '${firstName}%' AND last_name LIKE '${lastName}%'`;
+    }
+
+    sqlQuery += ` LIMIT ${limit} OFFSET ${offset}`;
+
+    const users = (await this.usersRepository.query(sqlQuery)) as Array<User>;
 
     return users.map((user) => {
       user.password = undefined;

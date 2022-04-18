@@ -8,19 +8,19 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { MenuItem, Select } from "@mui/material";
 import { RegistrationData, Sex } from "@src/types";
-import { Path } from "@src/routes";
-import { useHistory } from "react-router-dom";
+import { Path } from "@src/routesList";
 import { useStores } from "@store";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import { observer } from "mobx-react-lite";
 import { FormEventHandler } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const RegistrationPage = observer(() => {
-  const history = useHistory();
-
   const {
     AuthStore: { register, setRegistrationData, registrationData },
   } = useStores();
+
+  const navigate = useNavigate();
 
   const handleRegister: FormEventHandler = (event) => {
     event.preventDefault();
@@ -149,7 +149,7 @@ export const RegistrationPage = observer(() => {
             Register
           </Button>
           <Grid container justifyContent="flex-end">
-            <Grid item onClick={() => history.push(Path.LOGIN)}>
+            <Grid item onClick={() => navigate(Path.LOGIN)}>
               Already have an account? Log in
             </Grid>
           </Grid>
