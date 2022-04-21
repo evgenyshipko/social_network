@@ -17,11 +17,11 @@ npm ci
 ```bash
 npm run database:start
 ```
-3. Start server. Migrations will be created automatically.
+4. Start server. Migrations will be created automatically.
 ```bash
 npm run server:dev
 ```
-4. Start client
+5. Start client
 ```bash
 npm run client:dev
 ```
