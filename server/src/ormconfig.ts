@@ -14,7 +14,7 @@ export const mysqlConnectionOptions: ConnectionOptions = {
   database: DB_NAME,
   entities: [`${__dirname}/**/*.entity{.ts,.js}`],
   synchronize: false,
-  migrationsRun: false,
+  migrationsRun: true,
   migrationsTransactionMode: "each",
   migrations: [`${__dirname}/migrations/**/*{.ts,.js}`],
   logging: true,

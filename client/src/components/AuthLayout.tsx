@@ -4,6 +4,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { CircularProgress } from "@mui/material";
 import { useStores } from "@store";
+import { Path } from "@src/routesList";
 
 export const MainContainer = styled.div`
   display: flex;
@@ -42,5 +43,5 @@ export const AuthLayout = observer(() => {
     );
   }
 
-  return <Navigate to="/" />;
+  return <Navigate to={Path.LOGIN} />;
 });
