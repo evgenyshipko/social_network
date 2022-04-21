@@ -37,3 +37,5 @@ services:
       - PORT
     depends_on:
       - mysql_db
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

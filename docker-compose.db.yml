@@ -16,12 +16,6 @@ services:
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
       DB_VOLUME_PATH: ${DB_VOLUME_PATH}
-#    blkio_config:
-#      device_read_iops:
-#        - path: /dev/disk3
-#          rate: 20
-#      device_write_iops:
-#        - path: /dev/disk3
-#          rate: 20
+
 
 
