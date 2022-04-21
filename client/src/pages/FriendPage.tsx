@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { Content, FriendsBlock, MainContainer } from "@pages/pages.styled";
+import { FriendsBlock } from "@pages/pages.styled";
 import { useStores } from "@store";
-import { Button, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import Spacer from "@src/components/Spacer/Spacer";
 import { getUserName } from "@src/components/UserName";
@@ -25,19 +25,17 @@ export const FriendPage = observer(() => {
 
   return (
     isLoaded && (
-      <MainContainer>
-        <Content>
-          <UserInfo user={user} />
+      <>
+        <UserInfo user={user} />
 
-          <Spacer size={10} vertical />
+        <Spacer size={10} vertical />
 
-          <FriendsBlock>
-            <Typography>
-              Friends: {friends.map((friend) => getUserName(friend)).join(", ")}
-            </Typography>
-          </FriendsBlock>
-        </Content>
-      </MainContainer>
+        <FriendsBlock>
+          <Typography>
+            Friends: {friends.map((friend) => getUserName(friend)).join(", ")}
+          </Typography>
+        </FriendsBlock>
+      </>
     )
   );
 });

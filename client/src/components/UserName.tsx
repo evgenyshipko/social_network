@@ -14,6 +14,6 @@ export const UserName = ({
   isHeader?: boolean;
 }) => (
   <Typography variant={isHeader ? "h5" : "body1"}>
-    {getUserName(user)}
+    {user ? getUserName(user) : ""}
   </Typography>
 );

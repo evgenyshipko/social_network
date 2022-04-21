@@ -20,4 +20,6 @@ export const FriendsBlock = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
 `;

@@ -1,7 +1,7 @@
 import React from "react";
-import { Router } from "react-router-dom";
-import { history, stores, StoresContext } from "@store";
-import { Routes } from "./routes";
+import { BrowserRouter } from "react-router-dom";
+import { stores, StoresContext } from "@store";
+import { RoutesList } from "./routesList";
 import { Notice } from "@src/components/Notice/Notice";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
@@ -16,9 +16,9 @@ export const App = (): JSX.Element => {
       <ThemeProvider theme={theme}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <Notice />
-          <Router history={history}>
-            <Routes />
-          </Router>
+          <BrowserRouter>
+            <RoutesList />
+          </BrowserRouter>
         </LocalizationProvider>
       </ThemeProvider>
     </StoresContext.Provider>

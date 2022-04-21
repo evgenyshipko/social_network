@@ -1,0 +1,27 @@
+version: '2.4'
+services:
+  mysql_db:
+    image: mysql:5.7
+    restart: always
+    platform: linux/x86_64
+    container_name: social_network_mysql
+    volumes:
+      - ${DB_VOLUME_PATH}:/var/lib/mysql
+    ports:
+      - "${DB_PORT}:3306"
+    environment:
+      MYSQL_HOST: ${DB_HOST}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      DB_VOLUME_PATH: ${DB_VOLUME_PATH}
+#    blkio_config:
+#      device_read_iops:
+#        - path: /dev/rdisk3
+#          rate: 20
+#      device_write_iops:
+#        - path: /dev/rdisk3
+#          rate: 20
+
+

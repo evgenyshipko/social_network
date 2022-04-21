@@ -1,4 +1,7 @@
 import { ConnectionOptions } from "typeorm";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 const { DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_NAME } = process.env;
 
@@ -11,9 +14,10 @@ export const mysqlConnectionOptions: ConnectionOptions = {
   database: DB_NAME,
   entities: [`${__dirname}/**/*.entity{.ts,.js}`],
   synchronize: false,
-  migrationsRun: true,
+  migrationsRun: false,
   migrationsTransactionMode: "each",
   migrations: [`${__dirname}/migrations/**/*{.ts,.js}`],
+  logging: true,
   cli: {
     migrationsDir: `${__dirname}/migrations`,
   },
