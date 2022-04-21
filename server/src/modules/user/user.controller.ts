@@ -17,7 +17,8 @@ export type UserQueryParams = {
   limit?: number;
 };
 
-@UseGuards(JwtAuthenticationGuard)
+// закомментил для проведения .wrk тестов по ручке GET api/user
+// @UseGuards(JwtAuthenticationGuard)
 @Controller("api/user")
 export class UserController {
   constructor(private readonly userService: UserService) {}
